@@ -96,4 +96,17 @@ One-time repository setup:
 
 The workflow declares the required Pages and OIDC permissions and uses the
 `github-pages` environment. No separate deploy token or external theme setup
-is needed.
+is needed. A `static/.nojekyll` file is copied into every build so GitHub
+Pages never falls back to processing this repository with Jekyll.
+
+### Troubleshooting: the site shows the README instead of the blog
+
+This happens when **Settings → Pages → Build and deployment** is set to
+**Deploy from a branch** instead of **GitHub Actions**. In that mode GitHub
+ignores the Hugo output from this workflow, runs its own Jekyll build against
+the raw repository contents, and — finding no `index.html` at the repository
+root — renders `README.md` as the home page instead. Switching the source
+back to **GitHub Actions** and re-running the latest successful `Build and
+deploy to GitHub Pages` workflow run resolves it; the README is never part of
+the Hugo build (it lives outside `content/` and nothing in `layouts/`
+references it).
