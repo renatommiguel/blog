@@ -1,0 +1,23 @@
+{{ define "main" }}
+  <header class="page-heading">
+    <p class="eyebrow">The blog</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p>{{ . }}</p>{{ else }}{{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}{{ end }}
+  </header>
+  {{ $pages := .RegularPages.ByDate.Reverse }}
+  {{ with $pages }}
+    <ul class="post-list">
+      {{ range . }}
+        <li>
+          <article>
+            <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time>
+            <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+            {{ with .Summary }}<p>{{ . | plainify | htmlUnescape | truncate 180 }}</p>{{ end }}
+          </article>
+        </li>
+      {{ end }}
+    </ul>
+  {{ else }}
+    <p>No posts have been published yet.</p>
+  {{ end }}
+{{ end }}

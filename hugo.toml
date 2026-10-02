@@ -1,0 +1,16 @@
+baseURL = "https://blog.matosmiguel.org/"
+languageCode = "en-us"
+title = "Miguel's Blog"
+
+[params]
+  description = "Notes, ideas, and writing from Miguel."
+
+[menus]
+  [[menus.main]]
+    name = "Home"
+    pageRef = "/"
+    weight = 10
+  [[menus.main]]
+    name = "Archive"
+    pageRef = "/posts"
+    weight = 20

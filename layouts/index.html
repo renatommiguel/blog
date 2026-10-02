@@ -1,0 +1,29 @@
+{{ define "main" }}
+  <section class="intro">
+    <p class="eyebrow">Welcome</p>
+    <h1>A place for notes and ideas.</h1>
+    <p>{{ site.Params.description }}</p>
+  </section>
+  <section aria-labelledby="recent-heading">
+    <div class="section-heading">
+      <h2 id="recent-heading">Recent posts</h2>
+      <a href="{{ "posts/" | relURL }}">View archive <span aria-hidden="true">→</span></a>
+    </div>
+    {{ $posts := where site.RegularPages "Section" "posts" }}
+    {{ with $posts.ByDate.Reverse.Limit 5 }}
+      <ul class="post-list">
+        {{ range . }}
+          <li>
+            <article>
+              <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "January 2, 2006" }}</time>
+              <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+              {{ with .Summary }}<p>{{ . | plainify | htmlUnescape | truncate 180 }}</p>{{ end }}
+            </article>
+          </li>
+        {{ end }}
+      </ul>
+    {{ else }}
+      <p>No posts yet. Check back soon.</p>
+    {{ end }}
+  </section>
+{{ end }}
